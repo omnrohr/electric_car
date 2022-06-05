@@ -15,6 +15,8 @@ class MyApp extends StatelessWidget {
       title: 'Electric car',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        // ignore: todo
+        //TODO: add a text theme color white,
         scaffoldBackgroundColor: Colors.black,
         primarySwatch: Colors.blue,
       ),

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:tesla_animated/home_controller.dart';
+import '../home_controller.dart';
 
 import '../constanins.dart';
 import './components/door_lock.dart';
 import './components/custom_nav_bar.dart';
 import './components/battery_status.dart';
+import './components/temp_details.dart';
+import './components/tyres.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -20,6 +22,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late Animation<double> _animationBatteryStatus;
   late AnimationController _tempAnimationController;
   late Animation<double> _animationCarShift;
+  late Animation<double> _animationTempShowInfo;
+  late Animation<double> _animationShowCoolGlow;
 
   final HomeController _controller = HomeController();
 
@@ -38,6 +42,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         vsync: this, duration: Duration(milliseconds: 1500));
     _animationCarShift = CurvedAnimation(
         parent: _tempAnimationController, curve: Interval(0.2, 0.4));
+    _animationTempShowInfo = CurvedAnimation(
+        parent: _tempAnimationController, curve: Interval(0.45, 0.65));
+    _animationShowCoolGlow = CurvedAnimation(
+        parent: _tempAnimationController, curve: Interval(0.7, 1));
   }
 
   @override
@@ -56,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    int temp = 20;
     return AnimatedBuilder(
         animation: Listenable.merge([
           _controller,
@@ -92,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       AnimatedPositioned(
                         duration: defaultDuration,
                         top: _controller.selectedBottomTab == 0
-                            ? constraints.maxHeight * 0.06
+                            ? constraints.maxHeight * 0.09
                             : constraints.maxWidth / 2,
                         child: Padding(
                           padding: EdgeInsets.symmetric(
@@ -190,7 +199,33 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       //       duration: defaultDuration,
                       //       opacity: _controller.selectedBottomTab == 1 ? 1 : 0,
                       //       child: BatteryStatus()),
-                      // )
+                      // ),
+                      Positioned(
+                          height: constraints.maxHeight,
+                          width: constraints.maxWidth,
+                          top: 60 * (1 - _animationTempShowInfo.value),
+                          child: Opacity(
+                              opacity: _animationTempShowInfo.value,
+                              child: TempDetails(
+                                  controller: _controller, temp: temp))),
+
+                      Positioned(
+                          right: -180 * (1 - _animationShowCoolGlow.value),
+                          child: AnimatedSwitcher(
+                            duration: defaultDuration,
+                            child: _controller.isCoolSelected
+                                ? Image.asset(
+                                    'assets/images/Cool_glow_2.png',
+                                    key: UniqueKey(),
+                                    width: 200,
+                                  )
+                                : Image.asset(
+                                    'assets/images/Hot_glow_4.png',
+                                    width: 200,
+                                    key: UniqueKey(),
+                                  ),
+                          )),
+                      ...tyres(constraints),
                     ],
                   );
                 },
@@ -198,7 +233,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
             bottomNavigationBar: CustomBottomNavigationBar(
               onPress: (value) {
-                print(value);
                 if (value == 1) {
                   _batteryAnimationController.forward();
                 } else if (_controller.selectedBottomTab == 1 && value != 1) {

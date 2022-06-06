@@ -97,7 +97,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    int temp = 20;
     return AnimatedBuilder(
         animation: Listenable.merge([
           _controller,
@@ -241,7 +240,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           child: Opacity(
                               opacity: _animationTempShowInfo.value,
                               child: TempDetails(
-                                  controller: _controller, temp: temp))),
+                                controller: _controller,
+                                temp: _controller.temperature,
+                                onPressUp: _controller.increaseTemp,
+                                onPressDown: _controller.decreaseTemp,
+                              ))),
 
                       Positioned(
                           right: -180 * (1 - _animationShowCoolGlow.value),

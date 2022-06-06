@@ -67,4 +67,16 @@ class HomeController extends ChangeNotifier {
       });
     }
   }
+
+  int temperature = 20;
+
+  void increaseTemp() {
+    temperature += 1;
+    notifyListeners();
+  }
+
+  void decreaseTemp() {
+    temperature -= 1;
+    notifyListeners();
+  }
 }

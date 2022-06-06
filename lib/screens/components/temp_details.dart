@@ -9,11 +9,15 @@ class TempDetails extends StatelessWidget {
     Key? key,
     required HomeController controller,
     required this.temp,
+    required this.onPressUp,
+    required this.onPressDown,
   })  : _controller = controller,
         super(key: key);
 
   final HomeController _controller;
   final int temp;
+  final VoidCallback onPressUp;
+  final VoidCallback onPressDown;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +57,7 @@ class TempDetails extends StatelessWidget {
           Column(
             children: [
               IconButton(
-                  onPressed: () {},
+                  onPressed: onPressUp,
                   icon: const Icon(
                     Icons.arrow_drop_up,
                     color: Colors.white,
@@ -67,9 +71,7 @@ class TempDetails extends StatelessWidget {
                 ),
               ),
               IconButton(
-                  onPressed: () {},
-                  // ignore: todo
-                  //TODO: add functionality to update temperature
+                  onPressed: onPressDown,
                   icon: const Icon(
                     Icons.arrow_drop_down,
                     color: Colors.white,

@@ -25,7 +25,7 @@ class TyrePsiCard extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(6),
       ),
-      child: tyrePsi.isLowPressure
+      child: tyrePsi.psi < 30
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -44,6 +44,7 @@ class TyrePsiCard extends StatelessWidget {
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const Spacer(),
                 psiText(context, psi: tyrePsi.psi.toString()),
                 const SizedBox(
                   height: defaultPadding,
@@ -52,8 +53,6 @@ class TyrePsiCard extends StatelessWidget {
                   '${tyrePsi.temp}\u2103',
                   style: const TextStyle(color: Colors.white, fontSize: 16),
                 ),
-                const Spacer(),
-                lowPressureText(context),
               ],
             ),
     );

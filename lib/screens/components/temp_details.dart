@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../screens/components/temp_button.dart';
-import '../../constanins.dart';
+import '../../constantine.dart';
 import '../../home_controller.dart';
 
 class TempDetails extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../constanins.dart';
+import '../../constantine.dart';
 
 class TempButton extends StatelessWidget {
   const TempButton({
